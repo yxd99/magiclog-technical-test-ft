@@ -1,6 +1,6 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
-import { ProfileActions } from "./profile-actionst.interface";
+import { ProfileActions } from "./profile-actions.interface";
 import { ProfileState } from "./profile-state.interface";
 import { config } from "@/config/envs";
 import { AuthAPIResponse } from "@/features/auth/interfaces/auth-api-response";

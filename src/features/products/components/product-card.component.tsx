@@ -5,9 +5,8 @@ import { type Ref, memo, useMemo } from 'react';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { cn } from '@/lib/utils';
-import { Button } from '@/components/ui/button';
-import { ShoppingCart } from 'lucide-react';
 import { Product } from '../interfaces/product';
+import { AddProductToCartButton } from '@/features/cart/components/add-product-to-cart-button.component';
 
 interface ProductCardProps {
   ref?: Ref<HTMLDivElement>;
@@ -17,11 +16,6 @@ interface ProductCardProps {
 
 export const ProductCard = memo(
   ({ className = '', product, ref }: ProductCardProps) => {
-
-    const handleClick = () => {
-      console.log('click')
-    }
-
     const memoizedCard = useMemo(
       () => (
         <Card ref={ref} className='size-full overflow-hidden'>
@@ -52,9 +46,7 @@ export const ProductCard = memo(
           <p className='text-lg'>{''}</p>
         </CardContent>
         <CardFooter className='p-4 pt-0 flex justify-end'>
-          <Button onClick={handleClick}>
-            <ShoppingCart />
-          </Button>
+          <AddProductToCartButton product={product} />
         </CardFooter>
       </Card>
       ),
@@ -63,7 +55,7 @@ export const ProductCard = memo(
     );
 
     return (
-      <div className={cn('relative cursor-pointer', className)}>
+      <div className={cn('relative', className)}>
         {memoizedCard}
       </div>
     );

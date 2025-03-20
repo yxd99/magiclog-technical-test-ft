@@ -12,6 +12,7 @@ import {
 } from '@/components/ui/dialog';
 import LoginForm from './login-form';
 import SignUpForm from './sign-up-form';
+import { cn } from '@/lib/utils';
 
 const TYPE_FORM = {
   LOGIN: LoginForm,
@@ -20,7 +21,12 @@ const TYPE_FORM = {
 
 type TypeForm = keyof typeof TYPE_FORM;
 
-export function AuthModal() {
+interface AuthModalProps {
+  className?: string;
+  variant?: "secondary" | "destructive" | "link" | "default" | "outline" | "ghost" | null | undefined;
+}
+
+export function AuthModal({ className = '', variant = 'secondary' }: AuthModalProps) {
   const [form, setForm] = useState<TypeForm>('LOGIN');
   const [open, setOpen] = useState(false);
 
@@ -61,7 +67,7 @@ export function AuthModal() {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button onClick={() => setOpen(true)}>Iniciar sesión</Button>
+        <Button onClick={() => setOpen(true)} variant={variant} className={cn(className)}>Iniciar sesión</Button>
       </DialogTrigger>
       <DialogContent className='sm:max-w-[625px]'>
         <DialogHeader>
