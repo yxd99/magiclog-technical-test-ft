@@ -7,7 +7,7 @@ export interface Product {
   user: User;
   createdAt: Date;
   updatedAt: Date;
-  deletedAt: Date;
+  deletedAt?: Date | null;
 }
 
 export interface User {

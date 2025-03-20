@@ -7,7 +7,7 @@ import { type CreateProduct } from "../interfaces/create-product";
 import { updateProductService } from "../services/profile.service";
 
 interface UseUpdateProductProps {
-  onSuccess?: () => void;
+  onSuccess: () => void;
 }
 
 interface MutationProps {
@@ -15,15 +15,13 @@ interface MutationProps {
   product: CreateProduct;
 }
 
-export const useUpdateProduct = ({
-  onSuccess = () => {},
-}: UseUpdateProductProps) => {
+export const useUpdateProduct = ({ onSuccess }: UseUpdateProductProps) => {
   const queryClient = useQueryClient();
   const query = useMutation({
     mutationFn: ({ productId, product }: MutationProps) =>
       updateProductService(productId, product),
     onSuccess: () => {
-      queryClient.invalidateQueries({
+      void queryClient.invalidateQueries({
         queryKey: [GET_MY_PRODUCTS],
       });
       onSuccess();

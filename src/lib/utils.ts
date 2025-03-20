@@ -13,6 +13,7 @@ export function filtersToQueryParams(
 
   for (const [key, value] of Object.entries(filters)) {
     if (value !== null && value !== undefined && value !== "") {
+      // eslint-disable-next-line @typescript-eslint/no-base-to-string -- is a valid type
       params.append(key, value.toString());
     }
   }

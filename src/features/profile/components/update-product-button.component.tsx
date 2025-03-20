@@ -41,8 +41,8 @@ export function UpdateProductButton({
     setOpen(false);
   };
 
-  const handleSubmit = async (values: CreateProduct) => {
-    await updateProduct({
+  const handleSubmit = (values: CreateProduct) => {
+    updateProduct({
       productId: product.id,
       product: values,
     });

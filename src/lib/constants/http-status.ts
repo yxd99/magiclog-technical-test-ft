@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/naming-convention -- is a valid type */
 export const enum HttpStatus {
   OK = 200,
   CREATED = 201,

@@ -22,10 +22,7 @@ interface UserFormProps {
   onCloseModal: () => void;
 }
 
-export default function LoginForm({
-  className = "",
-  onCloseModal,
-}: UserFormProps) {
+export function LoginForm({ className = "", onCloseModal }: UserFormProps) {
   const { mutate: login, isPending } = useLogin({
     onSuccess: onCloseModal,
   });
@@ -37,8 +34,8 @@ export default function LoginForm({
     },
   });
 
-  const handleSubmit = async (values: Login) => {
-    await login(values);
+  const handleSubmit = (values: Login) => {
+    login(values);
   };
 
   return (

@@ -7,11 +7,13 @@ import { Paths } from "@/lib/constants/paths";
 import { cn } from "@/lib/utils";
 import { useProfileStore } from "@/store/profile/profile";
 
+import { Button } from "./ui/button";
+
 interface AuthActionsProps {
-  onHandleLogOut?: () => void;
+  onHandleLogOut: () => void;
 }
 
-export function AuthActions({ onHandleLogOut = () => {} }: AuthActionsProps) {
+export function AuthActions({ onHandleLogOut }: AuthActionsProps) {
   const { user } = useProfileStore();
 
   const rolePermissions = useMemo(
@@ -40,12 +42,12 @@ export function AuthActions({ onHandleLogOut = () => {} }: AuthActionsProps) {
           Mis productos
         </Link>
       ) : null}
-      <button
+      <Button
         className="rounded-lg p-2 hover:bg-secondary hover:text-primary"
         onClick={onHandleLogOut}
       >
         <LogOut />
-      </button>
+      </Button>
     </div>
   );
 }

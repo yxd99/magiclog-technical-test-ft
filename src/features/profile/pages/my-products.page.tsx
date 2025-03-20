@@ -3,7 +3,7 @@ import { ProductFiltersButton } from "../components/product-filters-button.compo
 import { ProductFiltersSidebar } from "../components/product-filters-sidebar.component";
 import { ProductTable } from "../components/product-table.component";
 
-export default function MyProductsPage() {
+export function MyProductsPage() {
   return (
     <div className="flex flex-col gap-4 p-5 lg:grid lg:grid-cols-[1fr,4fr]">
       <ProductFiltersSidebar className="hidden lg:block" />

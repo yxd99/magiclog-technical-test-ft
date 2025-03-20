@@ -31,6 +31,7 @@ class HttpClient {
       }
       if (config.params) {
         config.params = Object.fromEntries(
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-argument -- is a valid type
           Object.entries(config.params).map(([key, value]) => [
             camelToSnakeCase(key),
             value,

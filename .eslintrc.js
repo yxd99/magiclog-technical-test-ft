@@ -7,7 +7,7 @@ const project = resolve(__dirname, "tsconfig.json");
 /** @type {import('eslint').Linter.Config} */
 module.exports = {
   root: true,
-  ignorePatterns: ['vite.config.ts'],
+  ignorePatterns: ["vite.config*.ts"],
   extends: [
     "prettier",
     "plugin:tailwindcss/recommended",
@@ -26,7 +26,6 @@ module.exports = {
         Button: "button",
         Image: "img",
         Input: "input",
-        Link: "a",
         Textarea: "textarea",
       },
     },

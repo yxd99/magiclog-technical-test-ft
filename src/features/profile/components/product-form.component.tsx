@@ -20,7 +20,7 @@ import {
 
 interface ProductFormProps {
   className?: string;
-  onHandleSubmit: (values: CreateProduct) => Promise<void>;
+  onHandleSubmit: (values: CreateProduct) => void;
   initialValues: CreateProduct;
   isPending: boolean;
 }
@@ -36,8 +36,8 @@ export function ProductForm({
     defaultValues: initialValues,
   });
 
-  const handleSubmit = async (values: CreateProduct) => {
-    await onHandleSubmit(values);
+  const handleSubmit = (values: CreateProduct) => {
+    onHandleSubmit(values);
   };
 
   return (

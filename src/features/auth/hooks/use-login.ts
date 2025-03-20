@@ -8,10 +8,10 @@ import { type Login } from "../interfaces/login";
 import { loginService } from "../services/auth.service";
 
 interface UseLoginProps {
-  onSuccess?: () => void;
+  onSuccess: () => void;
 }
 
-export const useLogin = ({ onSuccess = () => {} }: UseLoginProps) => {
+export const useLogin = ({ onSuccess }: UseLoginProps) => {
   const { setUser } = useProfileStore();
   return useMutation({
     mutationFn: async (data: Login) => await loginService(data),

@@ -39,8 +39,8 @@ export function DeleteProductButton({
     setOpen(false);
   };
 
-  const handleSubmit = async () => {
-    await deleteProduct(product.id);
+  const handleSubmit = () => {
+    deleteProduct(product.id);
   };
 
   return (

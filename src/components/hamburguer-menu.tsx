@@ -25,13 +25,13 @@ interface HamburgerMenuProps {
     | "ghost"
     | null
     | undefined;
-  onHandleLogOut?: () => void;
+  onHandleLogOut: () => void;
 }
 
 export function HamburgerMenu({
   className = "",
   variant = "ghost",
-  onHandleLogOut = () => {},
+  onHandleLogOut,
 }: HamburgerMenuProps) {
   const [open, setOpen] = useState(false);
 

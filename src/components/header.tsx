@@ -9,7 +9,7 @@ import { Navbar } from "./navbar";
 export function Header() {
   const { user } = useProfileStore();
   return (
-    <div className="text-font-bold sticky top-0 z-10 flex items-center justify-end border-b border-b-slate-600 bg-blue-700 p-5 text-white">
+    <div className="sticky top-0 z-10 flex items-center justify-end border-b border-b-slate-600 bg-blue-700 p-5 font-bold text-white">
       <CartButton
         className="hover:rounded-lg hover:bg-secondary hover:text-primary"
         variant="ghost"

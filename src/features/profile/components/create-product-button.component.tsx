@@ -30,8 +30,8 @@ export function CreateProductButton() {
     setOpen(false);
   };
 
-  const handleSubmit = async (values: CreateProduct) => {
-    await createProduct(values);
+  const handleSubmit = (values: CreateProduct) => {
+    createProduct(values);
   };
 
   return (

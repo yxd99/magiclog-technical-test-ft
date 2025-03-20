@@ -8,10 +8,10 @@ import { type SignUp } from "../interfaces/sign-up";
 import { signUpService } from "../services/auth.service";
 
 interface UseSignUpProps {
-  onSuccess?: () => void;
+  onSuccess: () => void;
 }
 
-export const useSignUp = ({ onSuccess = () => {} }: UseSignUpProps) => {
+export const useSignUp = ({ onSuccess }: UseSignUpProps) => {
   const { setUser } = useProfileStore();
   return useMutation({
     mutationFn: async (data: SignUp) => signUpService(data),

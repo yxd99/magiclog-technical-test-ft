@@ -13,8 +13,8 @@ import {
 } from "@/components/ui/dialog";
 import { cn } from "@/lib/utils";
 
-import LoginForm from "./login-form";
-import SignUpForm from "./sign-up-form";
+import { LoginForm } from "./login-form";
+import { SignUpForm } from "./sign-up-form";
 
 const TYPE_FORM = {
   LOGIN: LoginForm,
@@ -57,25 +57,25 @@ export function AuthModal({
     LOGIN: (
       <>
         Por favor ingresa tus credenciales, ¿No tienes una cuenta?{" "}
-        <a
+        <Button
           className="underline"
-          href="#"
+          variant="ghost"
           onClick={() => handleSetForm("REGISTER")}
         >
           Registrarse
-        </a>
+        </Button>
       </>
     ),
     REGISTER: (
       <>
         ¿Ya tienes una cuenta?{" "}
-        <a
+        <Button
           className="underline"
-          href="#"
+          variant="ghost"
           onClick={() => handleSetForm("LOGIN")}
         >
           Iniciar sesión
-        </a>
+        </Button>
       </>
     ),
   };

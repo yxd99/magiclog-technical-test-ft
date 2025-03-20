@@ -4,17 +4,15 @@ import { GET_MY_PRODUCTS } from "../constants/query-keys";
 import { deleteProductService } from "../services/profile.service";
 
 interface UseDeleteProductProps {
-  onSuccess?: () => void;
+  onSuccess: () => void;
 }
 
-export const useDeleteProduct = ({
-  onSuccess = () => {},
-}: UseDeleteProductProps) => {
+export const useDeleteProduct = ({ onSuccess }: UseDeleteProductProps) => {
   const queryClient = useQueryClient();
   const query = useMutation({
     mutationFn: async (productId: string) => deleteProductService(productId),
     onSuccess: () => {
-      queryClient.invalidateQueries({
+      void queryClient.invalidateQueries({
         queryKey: [GET_MY_PRODUCTS],
       });
       onSuccess();

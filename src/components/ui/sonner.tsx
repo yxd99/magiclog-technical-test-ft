@@ -8,6 +8,7 @@ function Toaster({ ...props }: ToasterProps) {
 
   return (
     <Sonner
+      // eslint-disable-next-line tailwindcss/no-custom-classname -- is a valid type
       className="toaster group"
       theme={theme as ToasterProps["theme"]}
       toastOptions={{

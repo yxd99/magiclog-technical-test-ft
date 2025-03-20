@@ -8,7 +8,7 @@ interface ProtectedRouteProps {
   allowedRoles: Roles[];
 }
 
-export default function ProtectedRoute({ allowedRoles }: ProtectedRouteProps) {
+export function ProtectedRoute({ allowedRoles }: ProtectedRouteProps) {
   const { user } = useProfileStore();
 
   if (!user) {

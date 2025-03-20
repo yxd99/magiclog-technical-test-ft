@@ -19,7 +19,7 @@ export function ProductFiltersSidebar({ className = "" }: FilterSidebarProps) {
     }, 500);
 
     return () => clearTimeout(timeout);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- is a valid useEffect dependency
   }, [tempFilters]);
 
   const handleFilterChange = (name: string, value: string) => {

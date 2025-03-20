@@ -7,17 +7,15 @@ import { type CreateProduct } from "../interfaces/create-product";
 import { createProductService } from "../services/profile.service";
 
 interface UseCreateProductProps {
-  onSuccess?: () => void;
+  onSuccess: () => void;
 }
 
-export const useCreateProduct = ({
-  onSuccess = () => {},
-}: UseCreateProductProps) => {
+export const useCreateProduct = ({ onSuccess }: UseCreateProductProps) => {
   const queryClient = useQueryClient();
   const query = useMutation({
     mutationFn: async (product: CreateProduct) => createProductService(product),
     onSuccess: () => {
-      queryClient.invalidateQueries({
+      void queryClient.invalidateQueries({
         queryKey: [GET_MY_PRODUCTS],
       });
       onSuccess();

@@ -47,7 +47,7 @@ export const useProductFilters = () => {
       }
     });
 
-    navigate(`${pathname}?${params.toString()}`, { replace: true });
+    void navigate(`${pathname}?${params.toString()}`, { replace: true });
   };
 
   return { filters, setFilters };
