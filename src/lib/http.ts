@@ -1,102 +1,77 @@
+import axios, { AxiosInstance, AxiosRequestConfig } from 'axios';
 import { config } from '@/config/envs';
 import { HTTP_STATUS_MESSAGE } from '@/lib/constants/http-status';
-import { filtersToQueryParams } from '@/lib/utils';
 import { useProfileStore } from '@/store/profile/profile';
 
 export interface HttpResponse<T> {
   data: T;
+  statusCode: number;
+  status: string;
 }
 
-export class HttpClient {
-  constructor(private readonly baseUrl: string) {
+class HttpClient {
+  private axiosInstance: AxiosInstance;
+
+  constructor(baseUrl: string) {
     if (!baseUrl) {
       throw new Error('baseUrl is required');
     }
+
+    this.axiosInstance = axios.create({
+      baseURL: baseUrl,
+    });
+
+    this.axiosInstance.interceptors.request.use((config) => {
+      const token = useProfileStore.getState().user?.accessToken;
+      if (token) {
+        config.headers.Authorization = `Bearer ${token}`;
+      }
+      return config;
+    });
   }
 
-  private getAuthHeaders(): Record<string, string> {
-    const token = useProfileStore.getState().user?.accessToken;
-    return token ? { Authorization: `Bearer ${token}` } : {};
-  }
-
-  private async jsonResponse<T>(response: Promise<Response>) {
-    const awaitedResponse = await response;
-
+  private async request<T>(config: AxiosRequestConfig): Promise<HttpResponse<T>> {
+    const response = await this.axiosInstance.request<{ data: T }>(config);
     return {
-      data: (await awaitedResponse.json()).data as T,
-      statusCode: awaitedResponse.status,
-      status: HTTP_STATUS_MESSAGE[awaitedResponse.status],
+      data: response.data.data,
+      statusCode: response.status,
+      status: HTTP_STATUS_MESSAGE[response.status],
     };
   }
 
-  async get<T>(
-    path: string,
-    params?: Record<string, unknown>,
-    headers?: Record<string, string>
-  ): Promise<HttpResponse<T>> {
-    const queryParams = filtersToQueryParams(params);
-    const url = new URL(`${this.baseUrl}${path}?${queryParams}`);
-
-    const fetchPromise = fetch(url, {
-      headers: {
-        ...this.getAuthHeaders(),
-        ...headers,
-      },
-      cache: 'no-store',
+  async get<T>(path: string, params?: Record<string, unknown>, headers?: Record<string, string>): Promise<HttpResponse<T>> {
+    return this.request<T>({
+      method: 'GET',
+      url: path,
+      params,
+      headers,
     });
-
-    return this.jsonResponse<T>(fetchPromise);
   }
 
-  async post<T, B>(
-    path: string,
-    body: B,
-    headers?: Record<string, string>
-  ): Promise<HttpResponse<T>> {
-    const fetchPromise = fetch(`${this.baseUrl}${path}`, {
+  async post<T, B>(path: string, body: B, headers?: Record<string, string>): Promise<HttpResponse<T>> {
+    return this.request<T>({
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        ...this.getAuthHeaders(),
-        ...headers,
-      },
-      body: JSON.stringify(body),
+      url: path,
+      data: body,
+      headers,
     });
-
-    return this.jsonResponse<T>(fetchPromise);
   }
 
-  async patch<T, B>(
-    path: string,
-    body: B,
-    headers?: Record<string, string>
-  ): Promise<HttpResponse<T>> {
-    const fetchPromise = fetch(`${this.baseUrl}${path}`, {
+  async patch<T, B>(path: string, body: B, headers?: Record<string, string>): Promise<HttpResponse<T>> {
+    return this.request<T>({
       method: 'PATCH',
-      headers: {
-        'Content-Type': 'application/json',
-        ...this.getAuthHeaders(),
-        ...headers,
-      },
-      body: JSON.stringify(body),
+      url: path,
+      data: body,
+      headers,
     });
-
-    return this.jsonResponse<T>(fetchPromise);
   }
 
-  async delete<T>(
-    path: string,
-    headers?: Record<string, string>
-  ): Promise<HttpResponse<T>> {
-    const fetchPromise = fetch(`${this.baseUrl}${path}`, {
+  async delete<T>(path: string, headers?: Record<string, string>): Promise<HttpResponse<T>> {
+    return this.request<T>({
       method: 'DELETE',
-      headers: {
-        ...this.getAuthHeaders(),
-        ...headers,
-      },
+      url: path,
+      headers,
     });
-
-    return this.jsonResponse<T>(fetchPromise);
   }
 }
 

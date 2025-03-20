@@ -3,7 +3,7 @@
 import { type Ref, memo, useMemo } from 'react';
 
 import { Badge } from '@/components/ui/badge';
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { ShoppingCart } from 'lucide-react';
@@ -26,7 +26,7 @@ export const ProductCard = memo(
         <CardHeader className='p-0'>
           <div className='relative h-60 w-full border-gray-200 border-b'>
             <img
-              src={'https://placehold.co/600x400?text=Hello+World'}
+              src={'https://placehold.co/600x400?text=Product+Image'}
               alt={''}
               className='fill-current object-cover size-full'
             />
@@ -39,8 +39,13 @@ export const ProductCard = memo(
           </div>
         </CardHeader>
         <CardContent className='p-4'>
-          <div className='flex justify-between items-start'>
+          <div className='flex flex-col items-start'>
             <CardTitle className='text-xl font-bold truncate'>{'Name'}</CardTitle>
+            <CardDescription className='text-sm text-gray-500'>
+              <span>SKU: <small>123</small></span>
+              <span className='mx-2'>|</span>
+              <span>Price: <small>$100</small></span>
+            </CardDescription>
           </div>
           <p className='text-lg'>{''}</p>
         </CardContent>

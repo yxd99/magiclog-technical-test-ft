@@ -1,9 +1,7 @@
 import { cn } from "@/lib/utils";
 import { ProductCard } from "./product-card.component";
-import { useSidebar } from "@/components/ui/sidebar";
 
 export function ProductList() {
-  const { open } = useSidebar();
   const products = [
     {
       id: 1,
@@ -28,7 +26,7 @@ export function ProductList() {
   return (
     <div className='w-full'>
       <div
-        className={cn('grid grid-cols-1 gap-4 m-5 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4',{'md:grid-cols-2 lg:grid-cols-4': open,})}
+        className={cn('grid grid-cols-1 gap-4 m-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4')}
       >
         {products.map((product) => (
           <ProductCard

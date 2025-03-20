@@ -13,25 +13,30 @@ import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import { LogIn } from 'lucide-react';
 import { Login, loginSchema } from '../schemas/login.schema';
+import { useLogin } from '../hooks/use-login';
 
 interface UserFormProps {
   className?: string;
-  initialValues?: {
-    email: string;
-  };
+  onCloseModal: () => void;
 }
 
 export default function LoginForm({
   className = '',
-  initialValues,
+  onCloseModal
 }: UserFormProps) {
+  const { mutate: login, isPending } = useLogin({
+    onSuccess: onCloseModal,
+  });
   const form = useForm<Login>({
     resolver: zodResolver(loginSchema),
-    defaultValues: initialValues,
+    defaultValues: {
+      email: '',
+      password: '',
+    },
   });
 
   const handleSubmit = async (values: Login) => {
-    console.log(values)
+    await login(values);
   };
 
   return (
@@ -66,33 +71,7 @@ export default function LoginForm({
             </FormItem>
           )}
         />
-        <FormField
-          control={form.control}
-          name='password'
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Password</FormLabel>
-              <FormControl>
-                <Input placeholder='********' type='password' {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name='password'
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Password</FormLabel>
-              <FormControl>
-                <Input placeholder='********' type='password' {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <Button className='w-full mt-4' type='submit'>
+        <Button className='w-full mt-4' type='submit' disabled={isPending}>
           <LogIn />
           Login
         </Button>

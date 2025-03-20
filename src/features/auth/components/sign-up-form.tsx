@@ -13,28 +13,33 @@ import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import { LogIn } from 'lucide-react';
 import { SignUp, signUpSchema } from '../schemas/sign-up.schema';
+import { useSignUp } from '../hooks/use-sign-up';
 
 interface UserFormProps {
   className?: string;
-  initialValues?: {
-    email: string;
-    password: string;
-    confirmPassword: string;
-    name: string;
-  };
+  onCloseModal: () => void;
 }
 
 export default function SignUpForm({
   className = '',
-  initialValues,
+  onCloseModal
 }: UserFormProps) {
+  const { mutate: signUp, isPending } = useSignUp({
+    onSuccess: onCloseModal,
+  });
   const form = useForm<SignUp>({
     resolver: zodResolver(signUpSchema),
-    defaultValues: initialValues,
+    defaultValues: {
+      email: '',
+      password: '',
+      confirmPassword: '',
+      name: '',
+    },
   });
 
   const handleSubmit = async (values: SignUp) => {
-    console.log(values)
+    const { confirmPassword: _, ...rest } = values;
+    await signUp(rest);
   };
 
   return (
@@ -95,7 +100,7 @@ export default function SignUpForm({
             </FormItem>
           )}
         />
-        <Button className='w-full mt-4' type='submit'>
+        <Button className='w-full mt-4' type='submit' disabled={isPending}>
           <LogIn />
           Sign Up
         </Button>

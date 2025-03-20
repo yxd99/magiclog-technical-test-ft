@@ -1,3 +1,5 @@
+import { AuthAPIResponse } from "@/features/auth/interfaces/auth-api-response";
+
 export interface ProfileState {
-  user: Record<string, unknown> | null;
+  user: AuthAPIResponse | null;
 }
