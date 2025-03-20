@@ -52,17 +52,6 @@ export function ProductFiltersSidebar({ className = '' }: FilterSidebarProps) {
       </div>
 
       <div className='my-4'>
-        <h2>Precio</h2>
-        <Input
-          placeholder='$1000'
-          defaultValue={filters.price}
-          type='number'
-          onChange={(e) => handleFilterChange('price', e.target.value)}
-          className='w-full'
-        />
-      </div>
-
-      <div className='my-4'>
         <h2>Rango de precios</h2>
         <div className='flex gap-2'>
           <Input
