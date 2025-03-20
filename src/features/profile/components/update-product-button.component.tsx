@@ -56,7 +56,7 @@ export function UpdateProductButton({ product, className = '' }: ProductFormProp
         <DialogFooter>
           <DialogClose asChild>
             <Button type='button' variant='secondary' className='w-full'>
-              Close
+              Cerrar
             </Button>
           </DialogClose>
         </DialogFooter>

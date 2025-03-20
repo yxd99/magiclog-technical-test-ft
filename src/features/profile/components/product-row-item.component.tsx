@@ -14,14 +14,14 @@ interface ProductRowItemProps {
 export const ProductRowItem = memo(({ product, showActions = false, className = '', ref }: ProductRowItemProps) => {
   return (
     <TableRow className={className} ref={ref}>
-      <TableCell className="font-medium">{product.name}</TableCell>
-      <TableCell>{product.sku}</TableCell>
-      <TableCell>{product.stock}</TableCell>
-      <TableCell className="text-right">{product.price}</TableCell>
+      <TableCell className="font-medium p-4">{product.name}</TableCell>
+      <TableCell className="p-4">{product.sku}</TableCell>
+      <TableCell className="p-4">{product.stock}</TableCell>
+      <TableCell className="text-right p-4">{product.price}</TableCell>
       {showActions && (
-        <TableCell className="text-right">
+        <TableCell className="text-right p-4">
           <UpdateProductButton product={product} className="rounded-r-none" />
-          <DeleteProductButton productId={product.id} className="rounded-l-none bg-destructive" />
+          <DeleteProductButton product={product} className="rounded-l-none bg-destructive" />
         </TableCell>
       )}
     </TableRow>

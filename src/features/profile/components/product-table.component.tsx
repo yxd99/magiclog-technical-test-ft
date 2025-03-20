@@ -20,11 +20,11 @@ export const ProductTable = ({ className = '' }: ProductTableProps) => {
     <Table className={cn('bg-slate-50 rounded-sm', className)}>
       <TableHeader>
         <TableRow>
-          <TableHead className="w-[100px]">Nombre</TableHead>
-          <TableHead>SKU</TableHead>
-          <TableHead>Precio</TableHead>
-          <TableHead className="text-right">Stock</TableHead>
-          <TableHead className="text-right">Acciones</TableHead>
+          <TableHead className="p-4">Nombre</TableHead>
+          <TableHead className="p-4">SKU</TableHead>
+          <TableHead className="p-4">Precio</TableHead>
+          <TableHead className="text-right p-4">Stock</TableHead>
+          <TableHead className="text-right p-4">Acciones</TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>

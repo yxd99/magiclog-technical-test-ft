@@ -1,51 +1,85 @@
 import { Input } from '@/components/ui/input';
 import { cn } from '@/lib/utils';
-
-type FilterStructure = Record<string, string | undefined>;
+import { useProductFilters } from '../hooks/use-product-filters';
+import { useState, useEffect } from 'react';
 
 interface FilterSidebarProps {
   className?: string;
-  filters: FilterStructure;
-  setFilters: (filters: FilterStructure) => void;
 }
 
-export function ProductFiltersSidebar({
-  filters,
-  setFilters,
-  className = '',
-}: FilterSidebarProps) {
-  const toggleFilter = (name: string, value: string) => {
-    setFilters({
-      ...filters,
-      [name]: value,
-    });
+export function ProductFiltersSidebar({ className = '' }: FilterSidebarProps) {
+  const { filters, setFilters } = useProductFilters();
+  const [tempFilters, setTempFilters] = useState(filters);
+
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      setFilters(tempFilters);
+    }, 500);
+
+    return () => clearTimeout(timeout);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [tempFilters]);
+
+  const handleFilterChange = (name: string, value: string) => {
+    setTempFilters((prev) => ({
+      ...prev,
+      [name]: value || undefined,
+    }));
   };
 
   return (
     <div className={cn('col-span-1', className)}>
-      <h2 className='font-bold text-lg mb-4 border-b border-gray-400 pb-2'>
-        Filters
-      </h2>
+      <h2 className='font-bold text-lg mb-4 border-b border-gray-400 pb-2'>Filtros</h2>
+
       <div className="my-4">
-        <h2>
-          Name
-        </h2>
-        <Input placeholder='Some...' onBlur={(e) => toggleFilter('name', e.target.value)} className='w-full' />
+        <h2>Nombre</h2>
+        <Input
+          placeholder='Nombre de producto...'
+          defaultValue={filters.name}
+          onChange={(e) => handleFilterChange('name', e.target.value)}
+          className='w-full'
+        />
       </div>
+
       <div className='my-4'>
         <h2>SKU</h2>
-        <Input placeholder='SKU' onBlur={(e) => toggleFilter('sku', e.target.value)} className='w-full' />
+        <Input
+          placeholder='123ABC'
+          defaultValue={filters.sku}
+          onChange={(e) => handleFilterChange('sku', e.target.value)}
+          className='w-full'
+        />
       </div>
+
       <div className='my-4'>
-        <h2>Price</h2>
-        <Input placeholder='Price' onBlur={(e) => toggleFilter('price', e.target.value)} className='w-full' />
+        <h2>Precio</h2>
+        <Input
+          placeholder='$1000'
+          defaultValue={filters.price}
+          type='number'
+          onChange={(e) => handleFilterChange('price', e.target.value)}
+          className='w-full'
+        />
       </div>
+
       <div className='my-4'>
-        <h2>Range of Price</h2>
+        <h2>Rango de precios</h2>
         <div className='flex gap-2'>
-          <Input placeholder='Min Price' onBlur={(e) => toggleFilter('minPrice', e.target.value)} className='w-full' />
+          <Input
+            placeholder='Mínimo'
+            defaultValue={filters.minPrice}
+            type='number'
+            onChange={(e) => handleFilterChange('minPrice', e.target.value)}
+            className='w-full'
+          />
           {' - '}
-          <Input placeholder='Max Price' onBlur={(e) => toggleFilter('maxPrice', e.target.value)} className='w-full' />
+          <Input
+            placeholder='Máximo'
+            defaultValue={filters.maxPrice}
+            type='number'
+            onChange={(e) => handleFilterChange('maxPrice', e.target.value)}
+            className='w-full'
+          />
         </div>
       </div>
     </div>

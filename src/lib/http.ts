@@ -2,6 +2,7 @@ import axios, { AxiosInstance, AxiosRequestConfig } from 'axios';
 import { config } from '@/config/envs';
 import { HTTP_STATUS_MESSAGE } from '@/lib/constants/http-status';
 import { useProfileStore } from '@/store/profile/profile';
+import { camelToSnakeCase } from './utils';
 
 export interface HttpResponse<T> {
   data: T;
@@ -25,6 +26,14 @@ class HttpClient {
       const token = useProfileStore.getState().user?.accessToken;
       if (token) {
         config.headers.Authorization = `Bearer ${token}`;
+      }
+      if (config.params) {
+        config.params = Object.fromEntries(
+          Object.entries(config.params).map(([key, value]) => [
+            camelToSnakeCase(key),
+            value,
+          ])
+        );
       }
       return config;
     });

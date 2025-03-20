@@ -7,14 +7,16 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { ShoppingCart } from 'lucide-react';
+import { Product } from '../interfaces/product';
 
 interface ProductCardProps {
   ref?: Ref<HTMLDivElement>;
   className?: string;
+  product: Product;
 }
 
 export const ProductCard = memo(
-  ({ className = '', ref }: ProductCardProps) => {
+  ({ className = '', product, ref }: ProductCardProps) => {
 
     const handleClick = () => {
       console.log('click')
@@ -34,17 +36,17 @@ export const ProductCard = memo(
               className='absolute top-2 left-2'
               variant={'secondary'}
             >
-              {Math.random() > 0.5 ? 'En stock' : 'Agotado'}
+              {product.stock > 0 ? 'En stock' : 'Agotado'}
             </Badge>
           </div>
         </CardHeader>
         <CardContent className='p-4'>
           <div className='flex flex-col items-start'>
-            <CardTitle className='text-xl font-bold truncate'>{'Name'}</CardTitle>
+            <CardTitle className='text-xl font-bold truncate'>{product.name}</CardTitle>
             <CardDescription className='text-sm text-gray-500'>
-              <span>SKU: <small>123</small></span>
+              <span>SKU: <small>${product.sku}</small></span>
               <span className='mx-2'>|</span>
-              <span>Price: <small>$100</small></span>
+              <span>Precio: <small>${product.price}</small></span>
             </CardDescription>
           </div>
           <p className='text-lg'>{''}</p>

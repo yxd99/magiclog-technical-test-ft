@@ -1,40 +1,36 @@
 import { camelToSnakeCase } from '@/lib/utils';
-import { useEffect, useState } from 'react';
-import { useLocation, useSearchParams } from 'react-router';
+import { useSearchParams, useLocation, useNavigate } from 'react-router';
+import { ProductFilters } from '../interfaces/product-filters';
 
 export const useProductFilters = () => {
   const [searchParams] = useSearchParams();
   const location = useLocation();
+  const navigate = useNavigate();
   const { pathname } = location;
 
-  const [filters, setFilters] = useState<Record<string, string | undefined>>(
-    () => {
-      const name = searchParams.get('name') ?? undefined;
-      const price = searchParams.get('price') ?? undefined;
-      const stock = searchParams.get('stock') ?? undefined;
-      const minPrice = searchParams.get('min_price') ?? undefined;
-      const maxPrice = searchParams.get('max_price') ?? undefined;
-      return { name, price, stock, minPrice, maxPrice };
-    },
-  );
+  const filters: ProductFilters = {
+    name: searchParams.get('name') ?? undefined,
+    sku: searchParams.get('sku') ?? undefined,
+    price: searchParams.get('price') ?? undefined,
+    stock: searchParams.get('stock') ?? undefined,
+    minPrice: searchParams.get('min_price') ?? undefined,
+    maxPrice: searchParams.get('max_price') ?? undefined,
+  };
 
-  useEffect(() => {
-    const params = new URLSearchParams(searchParams.toString());
+  const setFilters = (newFilters: Partial<ProductFilters>) => {
+    const params = new URLSearchParams(searchParams);
 
-    Object.entries(filters).forEach(([key, values]) => {
-      if (values && values.length > 0) {
-        params.set(camelToSnakeCase(key), values.toString());
+    Object.entries(newFilters).forEach(([key, value]) => {
+      const paramKey = camelToSnakeCase(key);
+      if (value) {
+        params.set(camelToSnakeCase(paramKey), value.toString());
       } else {
-        params.delete(key);
+        params.delete(paramKey);
       }
     });
 
-    const queryString = Array.from(params.entries())
-      .map(([key, value]) => `${key}=${value}`)
-      .join('&');
+    navigate(`${pathname}?${params.toString()}`, { replace: true });
+  };
 
-    window.history.replaceState({}, '', `${pathname}?${queryString}`);
-  }, [filters, searchParams, pathname]);
-
-  return { filters, setFilters, searchParams };
+  return { filters, setFilters };
 };

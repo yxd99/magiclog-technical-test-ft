@@ -50,7 +50,7 @@ export default function LoginForm({
           name='email'
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Email</FormLabel>
+              <FormLabel>Correo</FormLabel>
               <FormControl>
                 <Input placeholder='john@doe.com' type='email' {...field} />
               </FormControl>
@@ -63,7 +63,7 @@ export default function LoginForm({
           name='password'
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Password</FormLabel>
+              <FormLabel>Contraseña</FormLabel>
               <FormControl>
                 <Input placeholder='********' type='password' {...field} />
               </FormControl>
@@ -73,7 +73,7 @@ export default function LoginForm({
         />
         <Button className='w-full mt-4' type='submit' disabled={isPending}>
           <LogIn />
-          Login
+          Iniciar sesión
         </Button>
       </form>
     </Form>

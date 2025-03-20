@@ -37,37 +37,42 @@ export function AuthModal() {
   const MESSAGES = {
     LOGIN: (
       <>
-        Please enter your credentials, are you a new user?{' '}
+        Por favor ingresa tus credenciales, ¿No tienes una cuenta?{' '}
         <a className='underline' href='#' onClick={() => handleSetForm('REGISTER')}>
-          Register a new account
+          Registrarse
         </a>
       </>
     ),
     REGISTER: (
       <>
-        Have you an account?{' '}
+        ¿Ya tienes una cuenta?{' '}
         <a className='underline' href='#' onClick={() => handleSetForm('LOGIN')}>
-          Login
+          Iniciar sesión
         </a>
       </>
     ),
   };
 
+  const TITLES = {
+    LOGIN: 'Iniciar sesión',
+    REGISTER: 'Registrarse',
+  };
+
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button onClick={() => setOpen(true)}>Login</Button>
+        <Button onClick={() => setOpen(true)}>Iniciar sesión</Button>
       </DialogTrigger>
       <DialogContent className='sm:max-w-[625px]'>
         <DialogHeader>
-          <DialogTitle>{form}</DialogTitle>
+          <DialogTitle>{TITLES[form]}</DialogTitle>
           <DialogDescription>{MESSAGES[form]}</DialogDescription>
         </DialogHeader>
         <FormComponent onCloseModal={handleCloseModal} />
         <DialogFooter>
           <DialogClose asChild>
             <Button type='button' variant='secondary' className='w-full'>
-              Close
+              Cerrar
             </Button>
           </DialogClose>
         </DialogFooter>

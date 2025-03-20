@@ -13,13 +13,15 @@ import {
 import { Trash } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useDeleteProduct } from '../hooks/use-delete-product';
+import { Product } from '../interfaces/product';
+import { Separator } from '@/components/ui/separator';
 
 interface DeleteProductButtonProps {
-  productId: string;
+  product: Product;
   className?: string;
 }
 
-export function DeleteProductButton({ productId, className = '' }: DeleteProductButtonProps) {
+export function DeleteProductButton({ product, className = '' }: DeleteProductButtonProps) {
   const { mutate: deleteProduct, isPending } = useDeleteProduct({
     onSuccess: () => {
       handleCloseModal(); 
@@ -33,7 +35,7 @@ export function DeleteProductButton({ productId, className = '' }: DeleteProduct
   };
 
   const handleSubmit = async () => {
-    await deleteProduct(productId);
+    await deleteProduct(product.id);
   }
 
   return (
@@ -44,7 +46,15 @@ export function DeleteProductButton({ productId, className = '' }: DeleteProduct
       <DialogContent className='sm:max-w-[625px]'>
         <DialogHeader>
           <DialogTitle>Eliminar Producto</DialogTitle>
-          <DialogDescription>¿Seguro que quieres eliminar este producto?</DialogDescription>
+          <DialogDescription asChild>
+            <div>
+              <p>¿Seguro que quieres eliminar este producto?</p>
+              <p>Esta acción no se puede deshacer.</p>
+              <Separator orientation='horizontal' className='my-2' />
+              <p><span className='font-bold'>Nombre:</span><span className='ml-2'>{product.name}</span></p>
+              <p><span className='font-bold'>SKU:</span><span className='ml-2'>{product.sku}</span></p>
+            </div>
+          </DialogDescription>
         </DialogHeader>
         <DialogFooter>
           <DialogClose asChild>
