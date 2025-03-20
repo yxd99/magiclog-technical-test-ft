@@ -1,13 +1,13 @@
 import { Paths } from '@/lib/constants/paths';
-import { lazy } from 'react';
-import { Route, Routes } from 'react-router';
-
-const MyProducts = lazy(() => import('@/features/profile/pages/my-products.page'));
+import { Navigate, Outlet } from 'react-router';
+import { useProfileStore } from '@/store/profile/profile';
 
 export default function PrivateRoutes() {
-  return (
-    <Routes>
-      <Route path={Paths.MY_PRODUCTS} element={<MyProducts />} />
-    </Routes>
-  );
+  const { user } = useProfileStore();
+
+  if (!user) {
+    return <Navigate to={Paths.HOME} replace />;
+  }
+
+  return <Outlet />;
 }

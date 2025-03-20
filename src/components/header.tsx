@@ -3,14 +3,13 @@ import { Roles } from "@/features/auth/enums/roles";
 import { Paths } from "@/lib/constants/paths";
 import { useProfileStore } from "@/store/profile/profile";
 import { LogOut } from "lucide-react";
-import { Link, useNavigate } from "react-router";
+import { Link, redirect } from "react-router";
 
 function AuthActions() {
-  const navigate = useNavigate();
   const { setUser, user } = useProfileStore();
   const handleLogOut = () => {
     setUser(null);
-    navigate(Paths.HOME);
+    redirect(Paths.HOME);
   }
 
   return (<div className="flex gap-2 items-center">
