@@ -1,8 +1,10 @@
-import axios, { AxiosInstance, AxiosRequestConfig } from 'axios';
-import { config } from '@/config/envs';
-import { HTTP_STATUS_MESSAGE } from '@/lib/constants/http-status';
-import { useProfileStore } from '@/store/profile/profile';
-import { camelToSnakeCase } from './utils';
+import axios, { type AxiosInstance, type AxiosRequestConfig } from "axios";
+
+import { config } from "@/config/envs";
+import { HTTP_STATUS_MESSAGE } from "@/lib/constants/http-status";
+import { useProfileStore } from "@/store/profile/profile";
+
+import { camelToSnakeCase } from "./utils";
 
 export interface HttpResponse<T> {
   data: T;
@@ -15,7 +17,7 @@ class HttpClient {
 
   constructor(baseUrl: string) {
     if (!baseUrl) {
-      throw new Error('baseUrl is required');
+      throw new Error("baseUrl is required");
     }
 
     this.axiosInstance = axios.create({
@@ -32,14 +34,16 @@ class HttpClient {
           Object.entries(config.params).map(([key, value]) => [
             camelToSnakeCase(key),
             value,
-          ])
+          ]),
         );
       }
       return config;
     });
   }
 
-  private async request<T>(config: AxiosRequestConfig): Promise<HttpResponse<T>> {
+  private async request<T>(
+    config: AxiosRequestConfig,
+  ): Promise<HttpResponse<T>> {
     const response = await this.axiosInstance.request<{ data: T }>(config);
     return {
       data: response.data.data,
@@ -48,36 +52,51 @@ class HttpClient {
     };
   }
 
-  async get<T>(path: string, params?: Record<string, unknown>, headers?: Record<string, string>): Promise<HttpResponse<T>> {
+  async get<T>(
+    path: string,
+    params?: Record<string, unknown>,
+    headers?: Record<string, string>,
+  ): Promise<HttpResponse<T>> {
     return this.request<T>({
-      method: 'GET',
+      method: "GET",
       url: path,
       params,
       headers,
     });
   }
 
-  async post<T, B>(path: string, body: B, headers?: Record<string, string>): Promise<HttpResponse<T>> {
+  async post<T, B>(
+    path: string,
+    body: B,
+    headers?: Record<string, string>,
+  ): Promise<HttpResponse<T>> {
     return this.request<T>({
-      method: 'POST',
+      method: "POST",
       url: path,
       data: body,
       headers,
     });
   }
 
-  async patch<T, B>(path: string, body: B, headers?: Record<string, string>): Promise<HttpResponse<T>> {
+  async patch<T, B>(
+    path: string,
+    body: B,
+    headers?: Record<string, string>,
+  ): Promise<HttpResponse<T>> {
     return this.request<T>({
-      method: 'PATCH',
+      method: "PATCH",
       url: path,
       data: body,
       headers,
     });
   }
 
-  async delete<T>(path: string, headers?: Record<string, string>): Promise<HttpResponse<T>> {
+  async delete<T>(
+    path: string,
+    headers?: Record<string, string>,
+  ): Promise<HttpResponse<T>> {
     return this.request<T>({
-      method: 'DELETE',
+      method: "DELETE",
       url: path,
       headers,
     });

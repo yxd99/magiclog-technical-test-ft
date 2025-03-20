@@ -1,3 +1,8 @@
+import { zodResolver } from "@hookform/resolvers/zod";
+import { LogIn } from "lucide-react";
+import { useForm } from "react-hook-form";
+
+import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
@@ -5,15 +10,12 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { Button } from '@/components/ui/button';
-import { cn } from '@/lib/utils';
-import { LogIn } from 'lucide-react';
-import { Login, loginSchema } from '../schemas/login.schema';
-import { useLogin } from '../hooks/use-login';
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { cn } from "@/lib/utils";
+
+import { useLogin } from "../hooks/use-login";
+import { type Login, loginSchema } from "../schemas/login.schema";
 
 interface UserFormProps {
   className?: string;
@@ -21,8 +23,8 @@ interface UserFormProps {
 }
 
 export default function LoginForm({
-  className = '',
-  onCloseModal
+  className = "",
+  onCloseModal,
 }: UserFormProps) {
   const { mutate: login, isPending } = useLogin({
     onSuccess: onCloseModal,
@@ -30,8 +32,8 @@ export default function LoginForm({
   const form = useForm<Login>({
     resolver: zodResolver(loginSchema),
     defaultValues: {
-      email: '',
-      password: '',
+      email: "",
+      password: "",
     },
   });
 
@@ -47,12 +49,12 @@ export default function LoginForm({
       >
         <FormField
           control={form.control}
-          name='email'
+          name="email"
           render={({ field }) => (
             <FormItem>
               <FormLabel>Correo</FormLabel>
               <FormControl>
-                <Input placeholder='john@doe.com' type='email' {...field} />
+                <Input placeholder="john@doe.com" type="email" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -60,18 +62,18 @@ export default function LoginForm({
         />
         <FormField
           control={form.control}
-          name='password'
+          name="password"
           render={({ field }) => (
             <FormItem>
               <FormLabel>Contraseña</FormLabel>
               <FormControl>
-                <Input placeholder='********' type='password' {...field} />
+                <Input placeholder="********" type="password" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
           )}
         />
-        <Button className='w-full mt-4' type='submit' disabled={isPending}>
+        <Button className="mt-4 w-full" disabled={isPending} type="submit">
           <LogIn />
           Iniciar sesión
         </Button>

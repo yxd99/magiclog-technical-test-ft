@@ -1,8 +1,11 @@
-import { TableCell, TableRow } from "@/components/ui/table";
 import { memo } from "react";
-import { Product } from "../interfaces/product";
-import { UpdateProductButton } from "./update-product-button.component";
+
+import { TableCell, TableRow } from "@/components/ui/table";
+
+import { type Product } from "../interfaces/product";
+
 import { DeleteProductButton } from "./delete-product-button.component";
+import { UpdateProductButton } from "./update-product-button.component";
 
 interface ProductRowItemProps {
   product: Product;
@@ -11,21 +14,31 @@ interface ProductRowItemProps {
   ref?: React.Ref<HTMLTableRowElement>;
 }
 
-export const ProductRowItem = memo(({ product, showActions = false, className = '', ref }: ProductRowItemProps) => {
-  return (
-    <TableRow className={className} ref={ref}>
-      <TableCell className="font-medium p-4">{product.name}</TableCell>
-      <TableCell className="p-4">{product.sku}</TableCell>
-      <TableCell className="p-4">{product.stock}</TableCell>
-      <TableCell className="text-right p-4">{product.price}</TableCell>
-      {showActions && (
-        <TableCell className="text-right p-4">
-          <UpdateProductButton product={product} className="rounded-r-none" />
-          <DeleteProductButton product={product} className="rounded-l-none bg-destructive" />
-        </TableCell>
-      )}
-    </TableRow>
-  );
-});
+export const ProductRowItem = memo(
+  ({
+    product,
+    showActions = false,
+    className = "",
+    ref,
+  }: ProductRowItemProps) => {
+    return (
+      <TableRow ref={ref} className={className}>
+        <TableCell className="p-4 font-medium">{product.name}</TableCell>
+        <TableCell className="p-4">{product.sku}</TableCell>
+        <TableCell className="p-4">{product.stock}</TableCell>
+        <TableCell className="p-4 text-right">{product.price}</TableCell>
+        {showActions ? (
+          <TableCell className="p-4 text-right">
+            <UpdateProductButton className="rounded-r-none" product={product} />
+            <DeleteProductButton
+              className="rounded-l-none bg-destructive"
+              product={product}
+            />
+          </TableCell>
+        ) : null}
+      </TableRow>
+    );
+  },
+);
 
-ProductRowItem.displayName = 'ProductItem';
+ProductRowItem.displayName = "ProductItem";

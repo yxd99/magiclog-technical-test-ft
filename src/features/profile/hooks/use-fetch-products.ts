@@ -1,7 +1,8 @@
-import { useInfiniteQuery } from '@tanstack/react-query';
-import { fetchMyProductsService } from '../services/profile.service';
-import { GET_MY_PRODUCTS } from '../constants/query-keys';
-import { ProductFilters } from '../interfaces/product-filters';
+import { useInfiniteQuery } from "@tanstack/react-query";
+
+import { GET_MY_PRODUCTS } from "../constants/query-keys";
+import { type ProductFilters } from "../interfaces/product-filters";
+import { fetchMyProductsService } from "../services/profile.service";
 
 export const useFetchMyProducts = (filters: ProductFilters) => {
   const query = useInfiniteQuery({

@@ -1,5 +1,6 @@
-import { useState } from 'react';
-import { Button } from '@/components/ui/button';
+import { useState } from "react";
+
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogClose,
@@ -9,17 +10,19 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from '@/components/ui/dialog';
-import { ProductForm } from './product-form.component';
-import { useCreateProduct } from '../hooks/use-create-product';
-import { CreateProduct } from '../interfaces/create-product';
+} from "@/components/ui/dialog";
+
+import { useCreateProduct } from "../hooks/use-create-product";
+import { type CreateProduct } from "../interfaces/create-product";
+
+import { ProductForm } from "./product-form.component";
 
 export function CreateProductButton() {
   const { mutate: createProduct, isPending } = useCreateProduct({
     onSuccess: () => {
-      handleCloseModal(); 
-    }
-  })
+      handleCloseModal();
+    },
+  });
 
   const [open, setOpen] = useState(false);
 
@@ -29,22 +32,26 @@ export function CreateProductButton() {
 
   const handleSubmit = async (values: CreateProduct) => {
     await createProduct(values);
-  }
+  };
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         <Button onClick={() => setOpen(true)}>Crear Producto</Button>
       </DialogTrigger>
-      <DialogContent className='sm:max-w-[625px]'>
+      <DialogContent className="sm:max-w-[625px]">
         <DialogHeader>
           <DialogTitle>Crear Producto</DialogTitle>
           <DialogDescription>Crear un nuevo producto</DialogDescription>
         </DialogHeader>
-        <ProductForm initialValues={{ name: '', sku: '', stock: 0, price: 0 }} isPending={isPending} onHandleSubmit={handleSubmit} />
+        <ProductForm
+          initialValues={{ name: "", sku: "", stock: 0, price: 0 }}
+          isPending={isPending}
+          onHandleSubmit={handleSubmit}
+        />
         <DialogFooter>
           <DialogClose asChild>
-            <Button type='button' variant='secondary' className='w-full'>
+            <Button className="w-full" type="button" variant="secondary">
               Cerrar
             </Button>
           </DialogClose>

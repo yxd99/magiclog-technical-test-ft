@@ -1,11 +1,11 @@
-import { Paths } from "@/lib/constants/paths";
-import { useProfileStore } from "@/store/profile/profile";
 import { useQueryClient } from "@tanstack/react-query";
 import { redirect } from "react-router";
-import { HamburgerMenu } from "./hamburguer-menu";
+
+import { Paths } from "@/lib/constants/paths";
+import { useProfileStore } from "@/store/profile/profile";
+
 import { AuthActions } from "./auth-actions";
-
-
+import { HamburgerMenu } from "./hamburguer-menu";
 
 export function Navbar() {
   const { setUser } = useProfileStore();
@@ -14,10 +14,15 @@ export function Navbar() {
     queryClient.clear();
     setUser(null);
     redirect(Paths.HOME);
-  }
+  };
 
-  return (<>
-    <HamburgerMenu onHandleLogOut={handleLogOut} className="hover:bg-secondary hover:text-primary hover:rounded-lg md:hidden" />
-    <AuthActions onHandleLogOut={handleLogOut} />
-  </>)
+  return (
+    <>
+      <HamburgerMenu
+        className="hover:rounded-lg hover:bg-secondary hover:text-primary md:hidden"
+        onHandleLogOut={handleLogOut}
+      />
+      <AuthActions onHandleLogOut={handleLogOut} />
+    </>
+  );
 }

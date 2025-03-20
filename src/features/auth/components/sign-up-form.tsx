@@ -1,3 +1,8 @@
+import { zodResolver } from "@hookform/resolvers/zod";
+import { LogIn } from "lucide-react";
+import { useForm } from "react-hook-form";
+
+import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
@@ -5,15 +10,12 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { Button } from '@/components/ui/button';
-import { cn } from '@/lib/utils';
-import { LogIn } from 'lucide-react';
-import { SignUp, signUpSchema } from '../schemas/sign-up.schema';
-import { useSignUp } from '../hooks/use-sign-up';
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { cn } from "@/lib/utils";
+
+import { useSignUp } from "../hooks/use-sign-up";
+import { type SignUp, signUpSchema } from "../schemas/sign-up.schema";
 
 interface UserFormProps {
   className?: string;
@@ -21,8 +23,8 @@ interface UserFormProps {
 }
 
 export default function SignUpForm({
-  className = '',
-  onCloseModal
+  className = "",
+  onCloseModal,
 }: UserFormProps) {
   const { mutate: signUp, isPending } = useSignUp({
     onSuccess: onCloseModal,
@@ -30,10 +32,10 @@ export default function SignUpForm({
   const form = useForm<SignUp>({
     resolver: zodResolver(signUpSchema),
     defaultValues: {
-      email: '',
-      password: '',
-      confirmPassword: '',
-      name: '',
+      email: "",
+      password: "",
+      confirmPassword: "",
+      name: "",
     },
   });
 
@@ -50,12 +52,12 @@ export default function SignUpForm({
       >
         <FormField
           control={form.control}
-          name='name'
+          name="name"
           render={({ field }) => (
             <FormItem>
               <FormLabel>Nombre</FormLabel>
               <FormControl>
-                <Input placeholder='John Doe' type='text' {...field} />
+                <Input placeholder="John Doe" type="text" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -63,12 +65,12 @@ export default function SignUpForm({
         />
         <FormField
           control={form.control}
-          name='email'
+          name="email"
           render={({ field }) => (
             <FormItem>
               <FormLabel>Correo</FormLabel>
               <FormControl>
-                <Input placeholder='john@doe.com' type='email' {...field} />
+                <Input placeholder="john@doe.com" type="email" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -76,12 +78,12 @@ export default function SignUpForm({
         />
         <FormField
           control={form.control}
-          name='password'
+          name="password"
           render={({ field }) => (
             <FormItem>
               <FormLabel>Contraseña</FormLabel>
               <FormControl>
-                <Input placeholder='********' type='password' {...field} />
+                <Input placeholder="********" type="password" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -89,18 +91,18 @@ export default function SignUpForm({
         />
         <FormField
           control={form.control}
-          name='confirmPassword'
+          name="confirmPassword"
           render={({ field }) => (
             <FormItem>
               <FormLabel>Confirmar Contraseña</FormLabel>
               <FormControl>
-                <Input placeholder='********' type='password' {...field} />
+                <Input placeholder="********" type="password" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
           )}
         />
-        <Button className='w-full mt-4' type='submit' disabled={isPending}>
+        <Button className="mt-4 w-full" disabled={isPending} type="submit">
           <LogIn />
           Registrarse
         </Button>

@@ -1,1 +1,1 @@
-export const GET_MY_PRODUCTS = 'get-my-products';
+export const GET_MY_PRODUCTS = "get-my-products";

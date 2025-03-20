@@ -1,9 +1,9 @@
-import { Roles } from "../enums/roles";
+import { type Roles } from "../enums/roles";
 
 export interface AuthAPIResponse {
-  id:          string;
-  name:        string;
-  email:       string;
-  role:        Roles;
+  id: string;
+  name: string;
+  email: string;
+  role: Roles;
   accessToken: string;
 }

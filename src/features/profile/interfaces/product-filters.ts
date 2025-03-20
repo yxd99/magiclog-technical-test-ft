@@ -1,4 +1,4 @@
-import { Pagination } from "./pagination";
+import { type Pagination } from "./pagination";
 
 export interface ProductFilters extends Pagination {
   name?: string;

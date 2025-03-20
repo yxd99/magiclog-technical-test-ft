@@ -1,12 +1,14 @@
-import { lazy } from 'react';
-import { Route, Routes } from 'react-router';
+import { lazy } from "react";
+import { Route, Routes } from "react-router";
 
-const ProductPage = lazy(() => import('@/features/products/pages/product-list.page'));
+const ProductPage = lazy(
+  () => import("@/features/products/pages/product-list.page"),
+);
 
 export default function PublicRoutes() {
   return (
     <Routes>
-      <Route path='/' element={<ProductPage />} />
+      <Route element={<ProductPage />} path="/" />
       {/* <Route path='login' element={<>Login</>} /> */}
       {/* <Route path='*' element={<Navigate to='/login' replace />} /> */}
     </Routes>

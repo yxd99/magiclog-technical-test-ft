@@ -9,11 +9,11 @@ export const enum HttpStatus {
 }
 
 export const HTTP_STATUS_MESSAGE: Record<number, string> = {
-  [HttpStatus.OK]: 'OK',
-  [HttpStatus.CREATED]: 'CREATED',
-  [HttpStatus.BAD_REQUEST]: 'BAD_REQUEST',
-  [HttpStatus.UNAUTHORIZED]: 'UNAUTHORIZED',
-  [HttpStatus.FORBIDDEN]: 'FORBIDDEN',
-  [HttpStatus.NOT_FOUND]: 'NOT_FOUND',
-  [HttpStatus.INTERNAL_SERVER_ERROR]: 'INTERNAL_SERVER_ERROR',
+  [HttpStatus.OK]: "OK",
+  [HttpStatus.CREATED]: "CREATED",
+  [HttpStatus.BAD_REQUEST]: "BAD_REQUEST",
+  [HttpStatus.UNAUTHORIZED]: "UNAUTHORIZED",
+  [HttpStatus.FORBIDDEN]: "FORBIDDEN",
+  [HttpStatus.NOT_FOUND]: "NOT_FOUND",
+  [HttpStatus.INTERNAL_SERVER_ERROR]: "INTERNAL_SERVER_ERROR",
 };

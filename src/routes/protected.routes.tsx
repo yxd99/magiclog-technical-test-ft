@@ -1,21 +1,22 @@
 import { Navigate, Outlet } from "react-router";
-import { useProfileStore } from "@/store/profile/profile";
+
+import { type Roles } from "@/features/auth/enums/roles";
 import { Paths } from "@/lib/constants/paths";
-import { Roles } from "@/features/auth/enums/roles";
+import { useProfileStore } from "@/store/profile/profile";
 
 interface ProtectedRouteProps {
-  allowedRoles: Roles[]; 
+  allowedRoles: Roles[];
 }
 
 export default function ProtectedRoute({ allowedRoles }: ProtectedRouteProps) {
   const { user } = useProfileStore();
 
   if (!user) {
-    return <Navigate to={Paths.HOME} replace />;
+    return <Navigate replace to={Paths.HOME} />;
   }
 
   if (!allowedRoles.includes(user.role)) {
-    return <Navigate to={Paths.HOME} replace />;
+    return <Navigate replace to={Paths.HOME} />;
   }
 
   return <Outlet />;

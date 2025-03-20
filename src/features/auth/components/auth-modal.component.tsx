@@ -1,5 +1,6 @@
-import { useState } from 'react';
-import { Button } from '@/components/ui/button';
+import { useState } from "react";
+
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogClose,
@@ -9,10 +10,11 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from '@/components/ui/dialog';
-import LoginForm from './login-form';
-import SignUpForm from './sign-up-form';
-import { cn } from '@/lib/utils';
+} from "@/components/ui/dialog";
+import { cn } from "@/lib/utils";
+
+import LoginForm from "./login-form";
+import SignUpForm from "./sign-up-form";
 
 const TYPE_FORM = {
   LOGIN: LoginForm,
@@ -23,11 +25,22 @@ type TypeForm = keyof typeof TYPE_FORM;
 
 interface AuthModalProps {
   className?: string;
-  variant?: "secondary" | "destructive" | "link" | "default" | "outline" | "ghost" | null | undefined;
+  variant?:
+    | "secondary"
+    | "destructive"
+    | "link"
+    | "default"
+    | "outline"
+    | "ghost"
+    | null
+    | undefined;
 }
 
-export function AuthModal({ className = '', variant = 'secondary' }: AuthModalProps) {
-  const [form, setForm] = useState<TypeForm>('LOGIN');
+export function AuthModal({
+  className = "",
+  variant = "secondary",
+}: AuthModalProps) {
+  const [form, setForm] = useState<TypeForm>("LOGIN");
   const [open, setOpen] = useState(false);
 
   const handleSetForm = (type: TypeForm) => {
@@ -43,16 +56,24 @@ export function AuthModal({ className = '', variant = 'secondary' }: AuthModalPr
   const MESSAGES = {
     LOGIN: (
       <>
-        Por favor ingresa tus credenciales, ¿No tienes una cuenta?{' '}
-        <a className='underline' href='#' onClick={() => handleSetForm('REGISTER')}>
+        Por favor ingresa tus credenciales, ¿No tienes una cuenta?{" "}
+        <a
+          className="underline"
+          href="#"
+          onClick={() => handleSetForm("REGISTER")}
+        >
           Registrarse
         </a>
       </>
     ),
     REGISTER: (
       <>
-        ¿Ya tienes una cuenta?{' '}
-        <a className='underline' href='#' onClick={() => handleSetForm('LOGIN')}>
+        ¿Ya tienes una cuenta?{" "}
+        <a
+          className="underline"
+          href="#"
+          onClick={() => handleSetForm("LOGIN")}
+        >
           Iniciar sesión
         </a>
       </>
@@ -60,16 +81,22 @@ export function AuthModal({ className = '', variant = 'secondary' }: AuthModalPr
   };
 
   const TITLES = {
-    LOGIN: 'Iniciar sesión',
-    REGISTER: 'Registrarse',
+    LOGIN: "Iniciar sesión",
+    REGISTER: "Registrarse",
   };
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button onClick={() => setOpen(true)} variant={variant} className={cn(className)}>Iniciar sesión</Button>
+        <Button
+          className={cn(className)}
+          variant={variant}
+          onClick={() => setOpen(true)}
+        >
+          Iniciar sesión
+        </Button>
       </DialogTrigger>
-      <DialogContent className='sm:max-w-[625px]'>
+      <DialogContent className="sm:max-w-[625px]">
         <DialogHeader>
           <DialogTitle>{TITLES[form]}</DialogTitle>
           <DialogDescription>{MESSAGES[form]}</DialogDescription>
@@ -77,7 +104,7 @@ export function AuthModal({ className = '', variant = 'secondary' }: AuthModalPr
         <FormComponent onCloseModal={handleCloseModal} />
         <DialogFooter>
           <DialogClose asChild>
-            <Button type='button' variant='secondary' className='w-full'>
+            <Button className="w-full" type="button" variant="secondary">
               Cerrar
             </Button>
           </DialogClose>
