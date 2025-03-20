@@ -1,3 +1,8 @@
+import { zodResolver } from "@hookform/resolvers/zod";
+import { LogIn } from "lucide-react";
+import { useForm } from "react-hook-form";
+
+import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
@@ -5,36 +10,35 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { Button } from '@/components/ui/button';
-import { cn } from '@/lib/utils';
-import { LogIn } from 'lucide-react';
-import { SignUp, signUpSchema } from '../schemas/sign-up.schema';
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { cn } from "@/lib/utils";
+
+import { useSignUp } from "../hooks/use-sign-up";
+import { type SignUp, signUpSchema } from "../schemas/sign-up.schema";
 
 interface UserFormProps {
   className?: string;
-  initialValues?: {
-    email: string;
-    password: string;
-    confirmPassword: string;
-    name: string;
-  };
+  onCloseModal: () => void;
 }
 
-export default function SignUpForm({
-  className = '',
-  initialValues,
-}: UserFormProps) {
+export function SignUpForm({ className = "", onCloseModal }: UserFormProps) {
+  const { mutate: signUp, isPending } = useSignUp({
+    onSuccess: onCloseModal,
+  });
   const form = useForm<SignUp>({
     resolver: zodResolver(signUpSchema),
-    defaultValues: initialValues,
+    defaultValues: {
+      email: "",
+      password: "",
+      confirmPassword: "",
+      name: "",
+    },
   });
 
-  const handleSubmit = async (values: SignUp) => {
-    console.log(values)
+  const handleSubmit = (values: SignUp) => {
+    const { confirmPassword: _, ...rest } = values;
+    signUp(rest);
   };
 
   return (
@@ -45,12 +49,12 @@ export default function SignUpForm({
       >
         <FormField
           control={form.control}
-          name='name'
+          name="name"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Name</FormLabel>
+              <FormLabel>Nombre</FormLabel>
               <FormControl>
-                <Input placeholder='John Doe' type='text' {...field} />
+                <Input placeholder="John Doe" type="text" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -58,12 +62,12 @@ export default function SignUpForm({
         />
         <FormField
           control={form.control}
-          name='email'
+          name="email"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Email</FormLabel>
+              <FormLabel>Correo</FormLabel>
               <FormControl>
-                <Input placeholder='john@doe.com' type='email' {...field} />
+                <Input placeholder="john@doe.com" type="email" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -71,12 +75,12 @@ export default function SignUpForm({
         />
         <FormField
           control={form.control}
-          name='password'
+          name="password"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Password</FormLabel>
+              <FormLabel>Contraseña</FormLabel>
               <FormControl>
-                <Input placeholder='********' type='password' {...field} />
+                <Input placeholder="********" type="password" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -84,20 +88,20 @@ export default function SignUpForm({
         />
         <FormField
           control={form.control}
-          name='confirmPassword'
+          name="confirmPassword"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Confirm Password</FormLabel>
+              <FormLabel>Confirmar Contraseña</FormLabel>
               <FormControl>
-                <Input placeholder='********' type='password' {...field} />
+                <Input placeholder="********" type="password" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
           )}
         />
-        <Button className='w-full mt-4' type='submit'>
+        <Button className="mt-4 w-full" disabled={isPending} type="submit">
           <LogIn />
-          Sign Up
+          Registrarse
         </Button>
       </form>
     </Form>

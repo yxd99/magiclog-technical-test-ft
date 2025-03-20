@@ -1,8 +1,14 @@
-import { Routes } from 'react-router';
+import { Navigate, Outlet } from "react-router";
 
-export default function PrivateRoutes() {
-  return (
-    <Routes>
-    </Routes>
-  );
+import { Paths } from "@/lib/constants/paths";
+import { useProfileStore } from "@/store/profile/profile";
+
+export function PrivateRoutes() {
+  const { user } = useProfileStore();
+
+  if (!user) {
+    return <Navigate replace to={Paths.HOME} />;
+  }
+
+  return <Outlet />;
 }

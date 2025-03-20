@@ -1,20 +1,21 @@
-import joi from 'joi'
+import { z } from "zod";
 
-const envVarsSchema = joi.object({
-  VITE_USER_NODE_ENV: joi.string().valid('production', 'development', 'test').required(),
-  VITE_API_URL: joi.string().uri().required(),
-  VITE_VERSION_STORE: joi.number().required(),
-}).unknown();
+const envVarsSchema = z.object({
+  VITE_USER_NODE_ENV: z.enum(["production", "development", "test"]),
+  VITE_API_URL: z.string(),
+  VITE_VERSION_STORE: z.number(),
+});
 
-const { error, value: envVars } = envVarsSchema.validate(import.meta.env)
+const { error, data: envVars } = envVarsSchema.safeParse(import.meta.env);
 
 if (error) {
-  throw new Error(`Config validation error: ${error.message}`)
+  throw new Error(
+    `Invalid environment variables: ${JSON.stringify(error.formErrors)}`,
+  );
 }
 
 export const config = {
-  env: envVars.VITE_USER_NODE_ENV,
   apiUrl: envVars.VITE_API_URL,
+  userNodeEnv: envVars.VITE_USER_NODE_ENV,
   versionStore: envVars.VITE_VERSION_STORE,
-}
-
+};

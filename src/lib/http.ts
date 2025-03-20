@@ -1,102 +1,106 @@
-import { config } from '@/config/envs';
-import { HTTP_STATUS_MESSAGE } from '@/lib/constants/http-status';
-import { filtersToQueryParams } from '@/lib/utils';
-import { useProfileStore } from '@/store/profile/profile';
+import axios, { type AxiosInstance, type AxiosRequestConfig } from "axios";
+
+import { config } from "@/config/envs";
+import { HTTP_STATUS_MESSAGE } from "@/lib/constants/http-status";
+import { useProfileStore } from "@/store/profile/profile";
+
+import { camelToSnakeCase } from "./utils";
 
 export interface HttpResponse<T> {
   data: T;
+  statusCode: number;
+  status: string;
 }
 
-export class HttpClient {
-  constructor(private readonly baseUrl: string) {
+class HttpClient {
+  private axiosInstance: AxiosInstance;
+
+  constructor(baseUrl: string) {
     if (!baseUrl) {
-      throw new Error('baseUrl is required');
+      throw new Error("baseUrl is required");
     }
+
+    this.axiosInstance = axios.create({
+      baseURL: baseUrl,
+    });
+
+    this.axiosInstance.interceptors.request.use((config) => {
+      const token = useProfileStore.getState().user?.accessToken;
+      if (token) {
+        config.headers.Authorization = `Bearer ${token}`;
+      }
+      if (config.params) {
+        config.params = Object.fromEntries(
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-argument -- is a valid type
+          Object.entries(config.params).map(([key, value]) => [
+            camelToSnakeCase(key),
+            value,
+          ]),
+        );
+      }
+      return config;
+    });
   }
 
-  private getAuthHeaders(): Record<string, string> {
-    const token = useProfileStore.getState().user?.accessToken;
-    return token ? { Authorization: `Bearer ${token}` } : {};
-  }
-
-  private async jsonResponse<T>(response: Promise<Response>) {
-    const awaitedResponse = await response;
-
+  private async request<T>(
+    config: AxiosRequestConfig,
+  ): Promise<HttpResponse<T>> {
+    const response = await this.axiosInstance.request<{ data: T }>(config);
     return {
-      data: (await awaitedResponse.json()).data as T,
-      statusCode: awaitedResponse.status,
-      status: HTTP_STATUS_MESSAGE[awaitedResponse.status],
+      data: response.data.data,
+      statusCode: response.status,
+      status: HTTP_STATUS_MESSAGE[response.status],
     };
   }
 
   async get<T>(
     path: string,
     params?: Record<string, unknown>,
-    headers?: Record<string, string>
+    headers?: Record<string, string>,
   ): Promise<HttpResponse<T>> {
-    const queryParams = filtersToQueryParams(params);
-    const url = new URL(`${this.baseUrl}${path}?${queryParams}`);
-
-    const fetchPromise = fetch(url, {
-      headers: {
-        ...this.getAuthHeaders(),
-        ...headers,
-      },
-      cache: 'no-store',
+    return this.request<T>({
+      method: "GET",
+      url: path,
+      params,
+      headers,
     });
-
-    return this.jsonResponse<T>(fetchPromise);
   }
 
   async post<T, B>(
     path: string,
     body: B,
-    headers?: Record<string, string>
+    headers?: Record<string, string>,
   ): Promise<HttpResponse<T>> {
-    const fetchPromise = fetch(`${this.baseUrl}${path}`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        ...this.getAuthHeaders(),
-        ...headers,
-      },
-      body: JSON.stringify(body),
+    return this.request<T>({
+      method: "POST",
+      url: path,
+      data: body,
+      headers,
     });
-
-    return this.jsonResponse<T>(fetchPromise);
   }
 
   async patch<T, B>(
     path: string,
     body: B,
-    headers?: Record<string, string>
+    headers?: Record<string, string>,
   ): Promise<HttpResponse<T>> {
-    const fetchPromise = fetch(`${this.baseUrl}${path}`, {
-      method: 'PATCH',
-      headers: {
-        'Content-Type': 'application/json',
-        ...this.getAuthHeaders(),
-        ...headers,
-      },
-      body: JSON.stringify(body),
+    return this.request<T>({
+      method: "PATCH",
+      url: path,
+      data: body,
+      headers,
     });
-
-    return this.jsonResponse<T>(fetchPromise);
   }
 
   async delete<T>(
     path: string,
-    headers?: Record<string, string>
+    headers?: Record<string, string>,
   ): Promise<HttpResponse<T>> {
-    const fetchPromise = fetch(`${this.baseUrl}${path}`, {
-      method: 'DELETE',
-      headers: {
-        ...this.getAuthHeaders(),
-        ...headers,
-      },
+    return this.request<T>({
+      method: "DELETE",
+      url: path,
+      headers,
     });
-
-    return this.jsonResponse<T>(fetchPromise);
   }
 }
 
