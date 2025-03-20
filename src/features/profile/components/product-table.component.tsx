@@ -1,15 +1,17 @@
-import { Table, TableBody, TableHead, TableHeader, TableRow } from "@/components/ui/table"
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { useFetchMyProducts } from "../hooks/use-fetch-products"
 import { ProductRowItem } from "./product-row-item.component";
 import { useInView } from "react-intersection-observer";
 import { cn } from "@/lib/utils";
+import { useProductFilters } from "../hooks/use-product-filters";
 
 interface ProductTableProps {
   className?: string;
 }
 
 export const ProductTable = ({ className = '' }: ProductTableProps) => {
-  const { products, handleChangeInView } = useFetchMyProducts({});
+  const { filters } = useProductFilters();
+  const { products, handleChangeInView, isFetching } = useFetchMyProducts(filters);
 
   const { ref } = useInView({
     threshold: 0.4,
@@ -32,6 +34,12 @@ export const ProductTable = ({ className = '' }: ProductTableProps) => {
           products.map((product, index) => (
             <ProductRowItem showActions ref={products.length - 1 === index ? ref : undefined} key={product.id} product={product} />
           ))
+        }
+        {
+          isFetching && (<TableRow className="p-4"><TableCell colSpan={5}>Loading...</TableCell></TableRow>)
+        }
+        {
+          !isFetching && products.length === 0 && (<TableRow className="p-4"><TableCell colSpan={5}>No hay productos</TableCell></TableRow>)
         }
       </TableBody>
     </Table>
