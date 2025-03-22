@@ -3,7 +3,7 @@ import { z } from "zod";
 const envVarsSchema = z.object({
   VITE_USER_NODE_ENV: z.enum(["production", "development", "test"]),
   VITE_API_URL: z.string(),
-  VITE_VERSION_STORE: z.number(),
+  VITE_VERSION_STORE: z.coerce.number(),
 });
 
 const { error, data: envVars } = envVarsSchema.safeParse(import.meta.env);
