@@ -34,11 +34,11 @@ export function AdminProductTable({ className = "" }: AdminProductTableProps) {
       <TableHeader>
         <TableRow>
           <TableHead className="p-4">Producto</TableHead>
-          <TableHead className="p-4">SKU</TableHead>
-          <TableHead className="p-4">Stock</TableHead>
-          <TableHead className="p-4 text-right">Precio</TableHead>
+          <TableHead className="p-4 text-center">SKU</TableHead>
+          <TableHead className="p-4 text-center">Stock</TableHead>
+          <TableHead className="p-4 text-center">Precio</TableHead>
           <TableHead className="p-4 text-center">Dueño</TableHead>
-          <TableHead className="p-4 text-right">Estado</TableHead>
+          <TableHead className="p-4 text-center">Estado</TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>
