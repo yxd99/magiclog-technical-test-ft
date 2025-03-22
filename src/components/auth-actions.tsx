@@ -26,6 +26,12 @@ export function AuthActions({ onHandleLogOut }: AuthActionsProps) {
 
   return (
     <div className="hidden items-center gap-2 md:flex">
+      <Link
+        className={cn("hover:bg-secondary hover:text-primary p-2 rounded-lg")}
+        to={Paths.HOME}
+      >
+        Inicio
+      </Link>
       {rolePermissions.isAdmin ? (
         <Link
           className={cn("hover:bg-secondary hover:text-primary p-2 rounded-lg")}
@@ -43,7 +49,8 @@ export function AuthActions({ onHandleLogOut }: AuthActionsProps) {
         </Link>
       ) : null}
       <Button
-        className="rounded-lg p-2 hover:bg-secondary hover:text-primary"
+        className="rounded-lg p-2"
+        variant="secondary"
         onClick={onHandleLogOut}
       >
         <LogOut />

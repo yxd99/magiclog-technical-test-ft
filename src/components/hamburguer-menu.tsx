@@ -54,6 +54,14 @@ export function HamburgerMenu({
         </SheetHeader>
         <div className="mt-4 flex flex-col gap-2">
           <Link
+            to={Paths.HOME}
+            className={cn(
+              "rounded-lg p-2 hover:bg-secondary hover:text-primary",
+            )}
+          >
+            Inicio
+          </Link>
+          <Link
             className="rounded-lg p-2 hover:bg-secondary hover:text-primary"
             to={Paths.ADMIN_PRODUCTS}
           >

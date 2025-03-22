@@ -12,7 +12,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { AddProductToCartButton } from "@/features/cart/components/add-product-to-cart-button.component";
-import { cn } from "@/lib/utils";
+import { cn, formatCurrency } from "@/lib/utils";
 
 import { type Product } from "../interfaces/product";
 
@@ -46,11 +46,11 @@ export const ProductCard = memo(
               </CardTitle>
               <CardDescription className="text-sm text-gray-500">
                 <span>
-                  SKU: <small>${product.sku}</small>
+                  SKU: <small>{product.sku}</small>
                 </span>
                 <span className="mx-2">|</span>
                 <span>
-                  Precio: <small>${product.price}</small>
+                  Precio: <small>{formatCurrency(product.price)}</small>
                 </span>
               </CardDescription>
             </div>

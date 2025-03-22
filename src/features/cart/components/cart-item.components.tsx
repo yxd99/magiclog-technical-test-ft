@@ -2,6 +2,7 @@ import { Trash } from "lucide-react";
 import { toast } from "sonner";
 
 import { Button } from "@/components/ui/button";
+import { formatCurrency } from "@/lib/utils";
 import { useCartStore } from "@/store/cart/cart";
 
 import { type Product } from "../interfaces/product";
@@ -34,7 +35,7 @@ export function CartItem({ product }: CartItemProps) {
           <p className="text-xl font-bold">{product.name}</p>
           <span className="text-sm">SKU: {product.sku}</span>
           <span className="text-sm">
-            Precio: $ {Intl.NumberFormat("es-EC").format(product.price)}
+            Precio: $ {formatCurrency(product.price)}
           </span>
           <div>
             <Button
