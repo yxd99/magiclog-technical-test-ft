@@ -23,3 +23,9 @@ export function filtersToQueryParams(
 
 export const camelToSnakeCase = (str: string) =>
   str.replace(/[A-Z]/g, (letter) => `_${letter.toLowerCase()}`);
+
+export const formatCurrency = (value: number, currency = "COP") =>
+  new Intl.NumberFormat("es-CO", {
+    style: "currency",
+    currency,
+  }).format(value);

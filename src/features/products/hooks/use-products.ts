@@ -7,7 +7,7 @@ import { fetchProducts as fetchProductsService } from "../services/products.serv
 export const useProducts = (filters: ProductFilters) => {
   const query = useInfiniteQuery({
     initialPageParam: 1,
-    queryKey: [FETCH_PRODUCTS, JSON.stringify(filters)],
+    queryKey: [FETCH_PRODUCTS, filters],
     queryFn: ({ pageParam }) =>
       fetchProductsService({ ...filters, page: pageParam }),
     getNextPageParam: (lastPage, pages) =>
