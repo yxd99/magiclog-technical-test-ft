@@ -1,19 +1,12 @@
-import { useQueryClient } from "@tanstack/react-query";
-import { redirect } from "react-router";
-
-import { Paths } from "@/lib/constants/paths";
-import { useProfileStore } from "@/store/profile/profile";
+import { useLogout } from "@/features/profile/hooks/use-logout";
 
 import { AuthActions } from "./auth-actions";
 import { HamburgerMenu } from "./hamburguer-menu";
 
 export function Navbar() {
-  const { setUser } = useProfileStore();
-  const queryClient = useQueryClient();
+  const logout = useLogout();
   const handleLogOut = () => {
-    queryClient.clear();
-    setUser(null);
-    redirect(Paths.HOME);
+    logout();
   };
 
   return (
