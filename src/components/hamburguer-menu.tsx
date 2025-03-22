@@ -13,6 +13,7 @@ import {
 } from "@/components/ui/sheet";
 import { Paths } from "@/lib/constants/paths";
 import { cn } from "@/lib/utils";
+import { useProfileStore } from "@/store/profile/profile";
 
 interface HamburgerMenuProps {
   className?: string;
@@ -33,12 +34,8 @@ export function HamburgerMenu({
   variant = "ghost",
   onHandleLogOut,
 }: HamburgerMenuProps) {
+  const { isAdmin, isSeller } = useProfileStore();
   const [open, setOpen] = useState(false);
-
-  const handleLogOut = () => {
-    onHandleLogOut();
-    setOpen(false);
-  };
 
   return (
     <Sheet open={open} onOpenChange={setOpen}>
@@ -61,19 +58,23 @@ export function HamburgerMenu({
           >
             Inicio
           </Link>
-          <Link
-            className="rounded-lg p-2 hover:bg-secondary hover:text-primary"
-            to={Paths.ADMIN_PRODUCTS}
-          >
-            Todos los productos
-          </Link>
-          <Link
-            className="rounded-lg p-2 hover:bg-secondary hover:text-primary"
-            to={Paths.MY_PRODUCTS}
-          >
-            Mis productos
-          </Link>
-          <Button variant="secondary" onClick={handleLogOut}>
+          {isAdmin ? (
+            <Link
+              className="rounded-lg p-2 hover:bg-secondary hover:text-primary"
+              to={Paths.ADMIN_PRODUCTS}
+            >
+              Todos los productos
+            </Link>
+          ) : null}
+          {isSeller ? (
+            <Link
+              className="rounded-lg p-2 hover:bg-secondary hover:text-primary"
+              to={Paths.MY_PRODUCTS}
+            >
+              Mis productos
+            </Link>
+          ) : null}
+          <Button variant="secondary" onClick={onHandleLogOut}>
             Cerrar sesión
           </Button>
         </div>
