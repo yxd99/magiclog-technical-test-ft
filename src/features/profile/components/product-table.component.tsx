@@ -34,10 +34,10 @@ export function ProductTable({ className = "" }: ProductTableProps) {
       <TableHeader>
         <TableRow>
           <TableHead className="p-4">Nombre</TableHead>
-          <TableHead className="p-4">SKU</TableHead>
-          <TableHead className="p-4">Precio</TableHead>
-          <TableHead className="p-4 text-right">Stock</TableHead>
-          <TableHead className="p-4 text-right">Acciones</TableHead>
+          <TableHead className="p-4 text-center">SKU</TableHead>
+          <TableHead className="p-4 text-center">Precio</TableHead>
+          <TableHead className="p-4 text-center">Stock</TableHead>
+          <TableHead className="p-4 text-center">Acciones</TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>

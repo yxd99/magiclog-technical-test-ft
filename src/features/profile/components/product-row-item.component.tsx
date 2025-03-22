@@ -1,6 +1,7 @@
 import { memo } from "react";
 
 import { TableCell, TableRow } from "@/components/ui/table";
+import { formatCurrency } from "@/lib/utils";
 
 import { type Product } from "../interfaces/product";
 
@@ -24,11 +25,13 @@ export const ProductRowItem = memo(
     return (
       <TableRow ref={ref} className={className}>
         <TableCell className="p-4 font-medium">{product.name}</TableCell>
-        <TableCell className="p-4">{product.sku}</TableCell>
-        <TableCell className="p-4">{product.stock}</TableCell>
-        <TableCell className="p-4 text-right">{product.price}</TableCell>
+        <TableCell className="p-4 text-center">{product.sku}</TableCell>
+        <TableCell className="p-4 text-center">
+          {formatCurrency(product.price)}
+        </TableCell>
+        <TableCell className="p-4 text-center">{product.stock}</TableCell>
         {showActions ? (
-          <TableCell className="p-4 text-right">
+          <TableCell className="p-4 text-center">
             <UpdateProductButton className="rounded-r-none" product={product} />
             <DeleteProductButton
               className="rounded-l-none bg-destructive"
