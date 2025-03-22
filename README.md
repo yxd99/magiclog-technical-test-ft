@@ -1,3 +1,6 @@
+> [!IMPORTANT]  
+> Project is deployed [here](https://magiclog-technical-test-ft.vercel.app/)
+> 
 # MagicLog Technical Test Frontend
 
 A modern e-commerce platform frontend application built with React, TypeScript, and Vite, featuring role-based access control and product management capabilities.
