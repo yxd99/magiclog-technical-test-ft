@@ -4,6 +4,7 @@ import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
 import { config } from "@/config/envs";
+import { Roles } from "@/features/auth/enums/roles";
 import { type AuthAPIResponse } from "@/features/auth/interfaces/auth-api-response";
 import { Paths } from "@/lib/constants/paths";
 
@@ -16,7 +17,14 @@ export const useProfileStore = create<ProfileStore>()(
   persist(
     (set, get) => ({
       user: null,
-      setUser: (user: AuthAPIResponse | null) => set({ user }),
+      isAdmin: false,
+      isSeller: false,
+      setUser: (user: AuthAPIResponse | null) =>
+        set({
+          user,
+          isAdmin: user?.role === Roles.ADMIN,
+          isSeller: user?.role === Roles.SELLER || user?.role === Roles.ADMIN,
+        }),
       logout: (queryClient: ReturnType<typeof useQueryClient>) => {
         if (get().user === null) {
           return;

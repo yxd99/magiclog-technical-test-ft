@@ -2,4 +2,6 @@ import { type AuthAPIResponse } from "@/features/auth/interfaces/auth-api-respon
 
 export interface ProfileState {
   user: AuthAPIResponse | null;
+  isAdmin: boolean;
+  isSeller: boolean;
 }
